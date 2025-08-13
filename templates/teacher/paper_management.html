@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>试卷管理 - AI智能课程助手</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/teacher.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/paper_management.css') }}">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>AI智能课程助手 - 试卷管理</h2>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-breadcrumb">
+                    <a href="/teacher">教师中心</a>
+                    <span>/</span>
+                    <span>试卷管理</span>
+                </div>
+                <div class="user-info">
+                    <span class="welcome-text">欢迎，<span id="currentUser">教师</span></span>
+                    <button class="logout-btn" onclick="logout()">退出登录</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>📚 试卷管理中心</h1>
+            <p>管理您的所有试卷，从创建到发布，再到智能分析</p>
+        </div>
+
+        <!-- 操作工具栏 -->
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <button class="btn btn-primary" onclick="showCreatePaperModal()">
+                    <span class="btn-icon">➕</span>
+                    新建试卷
+                </button>
+                <button class="btn btn-secondary" onclick="refreshPaperList()">
+                    <span class="btn-icon">🔄</span>
+                    刷新
+                </button>
+            </div>
+            <div class="toolbar-right">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="搜索试卷..." onkeyup="filterPapers()">
+                    <span class="search-icon">🔍</span>
+                </div>
+                <select id="statusFilter" onchange="filterPapers()">
+                    <option value="">全部状态</option>
+                    <option value="draft">草稿</option>
+                    <option value="published">已发布</option>
+                    <option value="closed">已关闭</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 试卷统计卡片 -->
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-icon">📄</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="totalPapers">0</div>
+                    <div class="stat-label">总试卷数</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="draftPapers">0</div>
+                    <div class="stat-label">草稿</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📢</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="publishedPapers">0</div>
+                    <div class="stat-label">已发布</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="completedExams">0</div>
+                    <div class="stat-label">已完成考试</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 试卷列表 -->
+        <div class="paper-list-container">
+            <div class="list-header">
+                <h3>试卷列表</h3>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid" onclick="switchView('grid')">
+                        <span>⊞</span> 网格
+                    </button>
+                    <button class="view-btn" data-view="list" onclick="switchView('list')">
+                        <span>☰</span> 列表
+                    </button>
+                </div>
+            </div>
+            
+            <div id="paperListContent" class="paper-grid">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>正在加载试卷列表...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 新建试卷弹窗 -->
+    <div id="createPaperModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeCreatePaperModal()">&times;</span>
+            <div class="modal-header">
+                <h2>📝 新建试卷</h2>
+                <p>创建一张新的试卷</p>
+            </div>
+            <form id="createPaperForm" onsubmit="createNewPaper(event)">
+                <div class="form-group">
+                    <label for="newPaperTitle">试卷标题 *</label>
+                    <input type="text" id="newPaperTitle" class="form-control" required placeholder="请输入试卷标题">
+                </div>
+                
+                <div class="form-group">
+                    <label for="newPaperDescription">试卷描述</label>
+                    <textarea id="newPaperDescription" class="form-control" rows="3" placeholder="请输入试卷描述（可选）"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newPaperSubject">科目 *</label>
+                        <select id="newPaperSubject" class="form-control" required>
+                            <option value="">请选择科目</option>
+                            <option value="information">信息技术</option>
+                            <option value="math">数学</option>
+                            <option value="chinese">语文</option>
+                            <option value="english">英语</option>
+                            <option value="physics">物理</option>
+                            <option value="chemistry">化学</option>
+                            <option value="biology">生物</option>
+                            <option value="history">历史</option>
+                            <option value="geography">地理</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newPaperGrade">年级 *</label>
+                        <select id="newPaperGrade" class="form-control" required>
+                            <option value="">请选择年级</option>
+                            <option value="grade1">一年级</option>
+                            <option value="grade2">二年级</option>
+                            <option value="grade3">三年级</option>
+                            <option value="grade4">四年级</option>
+                            <option value="grade5">五年级</option>
+                            <option value="grade6">六年级</option>
+                            <option value="grade7">七年级</option>
+                            <option value="grade8">八年级</option>
+                            <option value="grade9">九年级</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newPaperTimeLimit">考试时长（分钟）</label>
+                        <input type="number" id="newPaperTimeLimit" class="form-control" value="60" min="10" max="300">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newPaperTotalScore">试卷总分</label>
+                        <input type="number" id="newPaperTotalScore" class="form-control" value="100" min="10" max="500">
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="createNewPaperBtn">创建试卷</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCreatePaperModal()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 试卷详情弹窗 -->
+    <div id="paperDetailModal" class="modal" style="display: none;">
+        <div class="modal-content large">
+            <span class="close" onclick="closePaperDetailModal()">&times;</span>
+            <div class="modal-header">
+                <h2 id="paperDetailTitle">试卷详情</h2>
+                <div class="paper-status-badge" id="paperDetailStatus"></div>
+            </div>
+            <div id="paperDetailContent">
+                <!-- 试卷详情内容将在这里动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 智能分析弹窗 -->
+    <div id="analysisModal" class="modal" style="display: none;">
+        <div class="modal-content extra-large">
+            <span class="close" onclick="closeAnalysisModal()">&times;</span>
+            <div class="modal-header">
+                <h2>🧠 试卷智能分析</h2>
+                <p id="analysisSubtitle">深度分析考试结果，提供智能化教学建议</p>
+            </div>
+            <div id="analysisContent">
+                <!-- 分析内容将在这里动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/teacher.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/paper_management.js') }}"></script>
+</body>
+</html>

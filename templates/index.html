@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI智能课程助手系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>AI智能课程助手</h2>
+            </div>
+            <div class="nav-menu">
+                <div class="login-buttons">
+                    <button class="login-btn student-login" onclick="showLoginModal('student')">学生登录</button>
+                    <button class="login-btn teacher-login" onclick="showLoginModal('teacher')">教师登录</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1>欢迎使用AI智能课程助手系统</h1>
+                <p>一个集学习、教学、智能问答于一体的教育平台</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="showLoginModal('student')">学生登录</button>
+                    <button class="btn btn-secondary" onclick="showLoginModal('teacher')">教师登录</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="ai-icon">
+                    <div class="icon-circle">
+                        <span>AI</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能介绍 -->
+        <section class="features-section">
+            <div class="container">
+                <h2>系统功能</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon student-icon">📚</div>
+                        <h3>学生功能</h3>
+                        <ul>
+                            <li>在线做题练习</li>
+                            <li>AI智能问答</li>
+                            <li>学习进度跟踪</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon teacher-icon">👨‍🏫</div>
+                        <h3>教师功能</h3>
+                        <ul>
+                            <li>智能出题系统</li>
+                            <li>答题结果分析</li>
+                            <li>AI智能体助手</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 登录弹窗 -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalTitle">学生登录</h2>
+                <div class="role-indicator">
+                    <span id="roleIcon">👨‍🎓</span>
+                </div>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">账号</label>
+                    <input type="text" id="username" name="username" required placeholder="请输入您的账号">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" required placeholder="请输入您的密码">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="loginButton">登录</button>
+                    <button type="button" class="btn btn-cancel" onclick="closeLoginModal()">取消</button>
+                </div>
+                <div class="login-tips">
+                    <p id="loginTip">测试账号：student/123456 或 teacher/123456</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

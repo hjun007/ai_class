@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教师页面 - AI智能课程助手</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>AI智能课程助手 - 教师</h2>
+            </div>
+            <div class="nav-menu">
+                <div class="user-info">
+                    <span class="welcome-text">欢迎，<span id="currentUser">教师</span></span>
+                    <button class="logout-btn" onclick="logout()">退出登录</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>教师管理中心</h1>
+            <p>管理您的教学资源和学生数据</p>
+        </div>
+
+        <!-- 桌面图标样式菜单 -->
+        <div class="desktop-menu">
+            <div class="menu-grid">
+                <!-- 智能出题 -->
+                <div class="menu-item" onclick="window.location.href='/teacher/create-question'">
+                    <div class="menu-icon create-icon">
+                        <span>✏️</span>
+                    </div>
+                    <h3>智能出题</h3>
+                    <p>AI辅助创建题目</p>
+                </div>
+
+                <!-- 试卷管理 -->
+                <div class="menu-item" onclick="window.location.href='/teacher/paper-management'">
+                    <div class="menu-icon paper-icon">
+                        <span>📚</span>
+                    </div>
+                    <h3>试卷管理</h3>
+                    <p>管理试卷和智能分析</p>
+                </div>
+
+                <!-- 答题结果分析 -->
+                <div class="menu-item" onclick="openFeature('analysis')">
+                    <div class="menu-icon analysis-icon">
+                        <span>📈</span>
+                    </div>
+                    <h3>结果分析</h3>
+                    <p>学生答题数据分析</p>
+                </div>
+
+                <!-- AI智能体 -->
+                <div class="menu-item" onclick="openFeature('ai-assistant')">
+                    <div class="menu-icon ai-assistant-icon">
+                        <span>🧠</span>
+                    </div>
+                    <h3>AI智能体</h3>
+                    <p>智能教学助手</p>
+                </div>
+
+                <!-- 题库管理 -->
+                <div class="menu-item" onclick="openFeature('question-bank')">
+                    <div class="menu-icon bank-icon">
+                        <span>📚</span>
+                    </div>
+                    <h3>题库管理</h3>
+                    <p>管理题目资源</p>
+                </div>
+
+                <!-- 学生管理 -->
+                <div class="menu-item" onclick="openFeature('student-management')">
+                    <div class="menu-icon management-icon">
+                        <span>👥</span>
+                    </div>
+                    <h3>学生管理</h3>
+                    <p>管理学生信息</p>
+                </div>
+
+                <!-- 教学报告 -->
+                <div class="menu-item" onclick="openFeature('reports')">
+                    <div class="menu-icon report-icon">
+                        <span>📋</span>
+                    </div>
+                    <h3>教学报告</h3>
+                    <p>生成教学报告</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能预览区域 -->
+        <div class="feature-preview" id="featurePreview">
+            <div class="preview-content">
+                <h3>选择上方功能开始管理</h3>
+                <p>点击任意图标查看功能详情</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

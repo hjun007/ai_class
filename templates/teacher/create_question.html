@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能出题 - AI智能课程助手</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/teacher.css') }}">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>AI智能课程助手 - 智能出题</h2>
+            </div>
+            <div class="nav-menu">
+                <div class="nav-breadcrumb">
+                    <a href="/teacher">教师中心</a>
+                    <span>/</span>
+                    <span>智能出题</span>
+                </div>
+                <div class="user-info">
+                    <span class="welcome-text">欢迎，<span id="currentUser">教师</span></span>
+                    <button class="logout-btn" onclick="logout()">退出登录</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>🤖 AI智能出题</h1>
+            <p>利用人工智能技术快速生成高质量题目</p>
+        </div>
+
+        <!-- 功能选项卡 -->
+        <div class="tab-container">
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="switchTab('ai-generate')">AI生成题目</button>
+                <button class="tab-btn" onclick="switchTab('manual-create')">手动创建</button>
+                <button class="tab-btn" onclick="switchTab('batch-import')">批量导入</button>
+                <button class="tab-btn" onclick="switchTab('template-manage')">模板管理</button>
+            </div>
+
+            <!-- AI生成题目标签页 -->
+            <div class="tab-content active" id="ai-generate">
+                <div class="generate-container">
+                    <!-- 左侧配置面板 -->
+                    <div class="config-panel">
+                        <h3>📋 生成配置</h3>
+                        
+                        <!-- 基本设置 -->
+                        <div class="config-section">
+                            <h4>基本设置</h4>
+                            <div class="form-group">
+                                <label for="subject">科目</label>
+                                <select id="subject" class="form-control">
+                                    <option value="">请选择科目</option>
+                                    <option value="information">信息技术</option>
+                                    <option value="math">数学</option>
+                                    <option value="chinese">语文</option>
+                                    <option value="english">英语</option>
+                                    <option value="physics">物理</option>
+                                    <option value="chemistry">化学</option>
+                                    <option value="biology">生物</option>
+                                    <option value="history">历史</option>
+                                    <option value="geography">地理</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="grade">年级</label>
+                                <select id="grade" class="form-control">
+                                    <option value="">请选择年级</option>
+                                    <option value="grade1">一年级</option>
+                                    <option value="grade2">二年级</option>
+                                    <option value="grade3">三年级</option>
+                                    <option value="grade4">四年级</option>
+                                    <option value="grade5">五年级</option>
+                                    <option value="grade6">六年级</option>
+                                    <option value="grade7">七年级</option>
+                                    <option value="grade8">八年级</option>
+                                    <option value="grade9">九年级</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="questionType">题目类型</label>
+                                <select id="questionType" class="form-control">
+                                    <option value="">请选择类型</option>
+                                    <option value="choice">选择题</option>
+                                    <option value="fill">填空题</option>
+                                    <option value="essay">简答题</option>
+                                    <option value="calculation">计算题</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="difficulty">难度等级</label>
+                                <div class="difficulty-slider">
+                                    <input type="range" id="difficulty" min="1" max="5" value="3" class="slider">
+                                    <div class="difficulty-labels">
+                                        <span>简单</span>
+                                        <span>普通</span>
+                                        <span>困难</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="questionCount">生成数量</label>
+                                <input type="number" id="questionCount" class="form-control" value="5" min="1" max="20">
+                            </div>
+                        </div>
+
+                        <!-- 知识点设置 -->
+                        <div class="config-section">
+                            <h4>知识点设置</h4>
+                            <div class="form-group">
+                                <label for="knowledgePoints">相关知识点</label>
+                                <textarea id="knowledgePoints" class="form-control" rows="3" placeholder="请输入相关知识点，用逗号分隔"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 自定义要求 -->
+                        <div class="config-section">
+                            <h4>自定义要求</h4>
+                            <div class="form-group">
+                                <label for="customRequirements">特殊要求</label>
+                                <textarea id="customRequirements" class="form-control" rows="4" placeholder="请描述您的特殊要求，如：题目风格、考查重点、答题时间等"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 生成按钮 -->
+                        <div class="generate-actions">
+                            <button class="btn btn-primary btn-large" onclick="generateQuestions()">
+                                🚀 开始生成题目
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 右侧预览面板 -->
+                    <div class="preview-panel">
+                        <h3>📝 生成预览</h3>
+                        
+                        <div class="preview-area" id="previewArea">
+                            <div class="empty-state">
+                                <div class="empty-icon">🤖</div>
+                                <h4>AI题目生成器就绪</h4>
+                                <p>配置左侧参数，点击生成按钮开始创建题目</p>
+                            </div>
+                        </div>
+
+                        <!-- 生成结果操作 -->
+                        <div class="preview-actions" id="previewActions" style="display: none;">
+                            <button class="btn btn-primary" onclick="showPaperModal()">创建试卷</button>
+                            <button class="btn btn-secondary" onclick="showSelectPaperModal()">添加到试卷</button>
+                            <button class="btn btn-success" onclick="saveQuestions()">保存题目</button>
+                            <button class="btn btn-secondary" onclick="regenerateQuestions()">重新生成</button>
+                            <button class="btn btn-info" onclick="exportQuestions()">导出题目</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 手动创建标签页 -->
+            <div class="tab-content" id="manual-create">
+                <div class="manual-create-container">
+                    <h3>✏️ 手动创建题目</h3>
+                    <p>传统方式创建题目，完全控制题目内容</p>
+                    
+                    <div class="create-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>题目类型</label>
+                                <select class="form-control">
+                                    <option value="choice">选择题</option>
+                                    <option value="fill">填空题</option>
+                                    <option value="essay">简答题</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>难度等级</label>
+                                <select class="form-control">
+                                    <option value="1">简单</option>
+                                    <option value="2">较简单</option>
+                                    <option value="3">普通</option>
+                                    <option value="4">较困难</option>
+                                    <option value="5">困难</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>题目内容</label>
+                            <textarea class="form-control" rows="4" placeholder="请输入题目内容..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>参考答案</label>
+                            <textarea class="form-control" rows="3" placeholder="请输入参考答案..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn btn-primary">保存题目</button>
+                            <button class="btn btn-secondary">预览题目</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 批量导入标签页 -->
+            <div class="tab-content" id="batch-import">
+                <div class="import-container">
+                    <h3>📥 批量导入题目</h3>
+                    <p>支持Excel、Word、TXT等格式的题目批量导入</p>
+                    
+                    <div class="upload-area">
+                        <div class="upload-zone" onclick="triggerFileUpload()">
+                            <div class="upload-icon">📁</div>
+                            <h4>拖拽文件到此处或点击选择文件</h4>
+                            <p>支持 .xlsx, .docx, .txt 格式</p>
+                        </div>
+                        <input type="file" id="fileUpload" style="display: none;" accept=".xlsx,.docx,.txt">
+                    </div>
+
+                    <div class="import-options">
+                        <h4>导入设置</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>默认科目</label>
+                                <select class="form-control">
+                                    <option value="math">数学</option>
+                                    <option value="chinese">语文</option>
+                                    <option value="english">英语</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>默认难度</label>
+                                <select class="form-control">
+                                    <option value="3">普通</option>
+                                    <option value="1">简单</option>
+                                    <option value="5">困难</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模板管理标签页 -->
+            <div class="tab-content" id="template-manage">
+                <div class="template-container">
+                    <h3>📋 题目模板管理</h3>
+                    <p>创建和管理题目生成模板，提高出题效率</p>
+                    
+                    <div class="template-grid">
+                        <div class="template-card">
+                            <h4>信息技术选择题模板</h4>
+                            <p>适用于小学信息技术选择题生成</p>
+                            <div class="template-actions">
+                                <button class="btn btn-sm btn-primary">使用模板</button>
+                                <button class="btn btn-sm btn-secondary">编辑</button>
+                            </div>
+                        </div>
+
+                        <div class="template-card">
+                            <h4>数学选择题模板</h4>
+                            <p>适用于小学数学选择题生成</p>
+                            <div class="template-actions">
+                                <button class="btn btn-sm btn-primary">使用模板</button>
+                                <button class="btn btn-sm btn-secondary">编辑</button>
+                            </div>
+                        </div>
+
+                        <div class="template-card">
+                            <h4>语文阅读理解模板</h4>
+                            <p>适用于语文阅读理解题生成</p>
+                            <div class="template-actions">
+                                <button class="btn btn-sm btn-primary">使用模板</button>
+                                <button class="btn btn-sm btn-secondary">编辑</button>
+                            </div>
+                        </div>
+
+                        <div class="template-card create-template">
+                            <div class="create-icon">+</div>
+                            <h4>创建新模板</h4>
+                            <p>自定义题目生成模板</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 创建试卷弹窗 -->
+    <div id="paperModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closePaperModal()">&times;</span>
+            <div class="modal-header">
+                <h2>📝 创建试卷</h2>
+                <p>将生成的题目添加到新试卷中</p>
+            </div>
+            <form id="paperForm" onsubmit="createPaper(event)">
+                <div class="form-group">
+                    <label for="paperTitle">试卷标题 *</label>
+                    <input type="text" id="paperTitle" class="form-control" required placeholder="请输入试卷标题">
+                </div>
+                
+                <div class="form-group">
+                    <label for="paperDescription">试卷描述</label>
+                    <textarea id="paperDescription" class="form-control" rows="3" placeholder="请输入试卷描述（可选）"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="paperSubject">科目 *</label>
+                        <select id="paperSubject" class="form-control" required>
+                            <option value="">请选择科目</option>
+                            <option value="information">信息技术</option>
+                            <option value="math">数学</option>
+                            <option value="chinese">语文</option>
+                            <option value="english">英语</option>
+                            <option value="physics">物理</option>
+                            <option value="chemistry">化学</option>
+                            <option value="biology">生物</option>
+                            <option value="history">历史</option>
+                            <option value="geography">地理</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="paperGrade">年级 *</label>
+                        <select id="paperGrade" class="form-control" required>
+                            <option value="">请选择年级</option>
+                            <option value="grade1">一年级</option>
+                            <option value="grade2">二年级</option>
+                            <option value="grade3">三年级</option>
+                            <option value="grade4">四年级</option>
+                            <option value="grade5">五年级</option>
+                            <option value="grade6">六年级</option>
+                            <option value="grade7">七年级</option>
+                            <option value="grade8">八年级</option>
+                            <option value="grade9">九年级</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="paperTimeLimit">考试时长（分钟）</label>
+                        <input type="number" id="paperTimeLimit" class="form-control" value="60" min="10" max="300">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="paperTotalScore">试卷总分</label>
+                        <input type="number" id="paperTotalScore" class="form-control" value="100" min="10" max="500">
+                    </div>
+                </div>
+                
+                <div class="paper-options">
+                    <h4>📋 题目添加选项</h4>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="addAllQuestions" checked>
+                            <span class="checkmark"></span>
+                            添加所有生成的题目
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="autoPublish">
+                            <span class="checkmark"></span>
+                            创建后立即发布试卷
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="createPaperBtn">创建试卷</button>
+                    <button type="button" class="btn btn-secondary" onclick="closePaperModal()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 试卷管理弹窗 -->
+    <div id="paperManageModal" class="modal" style="display: none;">
+        <div class="modal-content large">
+            <span class="close" onclick="closePaperManageModal()">&times;</span>
+            <div class="modal-header">
+                <h2>📚 试卷管理</h2>
+                <p>管理您创建的所有试卷</p>
+            </div>
+            
+            <div class="paper-list" id="paperList">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>正在加载试卷列表...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 选择试卷弹窗 -->
+    <div id="selectPaperModal" class="modal" style="display: none;">
+        <div class="modal-content large">
+            <span class="close" onclick="closeSelectPaperModal()">&times;</span>
+            <div class="modal-header">
+                <h2>📚 选择试卷</h2>
+                <p>选择一个已有试卷，将当前生成的题目批量添加进去</p>
+            </div>
+
+            <div class="select-paper-toolbar">
+                <div class="toolbar-left">
+                    <button class="btn" onclick="loadSelectablePapers()">刷新</button>
+                </div>
+                <div class="toolbar-right">
+                    <div class="search-box">
+                        <input type="text" id="selectPaperSearch" placeholder="搜索试卷..." onkeyup="filterSelectablePapers()">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                    <select id="selectPaperStatus" onchange="filterSelectablePapers()">
+                        <option value="">全部状态</option>
+                        <option value="draft">草稿</option>
+                        <option value="published">已发布</option>
+                        <option value="closed">已关闭</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="selectable-paper-list" id="selectablePaperList">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>正在加载可选试卷...</p>
+                </div>
+            </div>
+
+            <div class="select-paper-actions">
+                <div class="selected-info" id="selectedPaperInfo">未选择试卷</div>
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="closeSelectPaperModal()">取消</button>
+                    <button class="btn btn-primary" id="addToPaperBtn" onclick="confirmAddToPaper()" disabled>添加到试卷</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/teacher.js') }}"></script>
+</body>
+</html>

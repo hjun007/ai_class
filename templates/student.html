@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生页面 - AI智能课程助手</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>AI智能课程助手 - 学生</h2>
+            </div>
+            <div class="nav-menu">
+                <div class="user-info">
+                    <span class="welcome-text">欢迎，<span id="currentUser">学生</span></span>
+                    <button class="logout-btn" onclick="logout()">退出登录</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>学生学习中心</h1>
+            <p>选择您要使用的学习功能</p>
+        </div>
+
+        <!-- 桌面图标样式菜单 -->
+        <div class="desktop-menu">
+            <div class="menu-grid">
+                <!-- 做题功能 -->
+                <div class="menu-item" onclick="openFeature('exercise')">
+                    <div class="menu-icon exercise-icon">
+                        <span>📝</span>
+                    </div>
+                    <h3>在线做题</h3>
+                    <p>练习题目，提升能力</p>
+                </div>
+
+                <!-- AI智能问答 -->
+                <div class="menu-item" onclick="openFeature('ai-qa')">
+                    <div class="menu-icon ai-icon">
+                        <span>🤖</span>
+                    </div>
+                    <h3>AI智能问答</h3>
+                    <p>智能助手，答疑解惑</p>
+                </div>
+
+                <!-- 学习记录 -->
+                <div class="menu-item" onclick="openFeature('records')">
+                    <div class="menu-icon record-icon">
+                        <span>📊</span>
+                    </div>
+                    <h3>学习记录</h3>
+                    <p>查看学习进度</p>
+                </div>
+
+                <!-- 个人中心 -->
+                <div class="menu-item" onclick="openFeature('profile')">
+                    <div class="menu-icon profile-icon">
+                        <span>👤</span>
+                    </div>
+                    <h3>个人中心</h3>
+                    <p>管理个人信息</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能预览区域 -->
+        <div class="feature-preview" id="featurePreview">
+            <div class="preview-content">
+                <h3>选择上方功能开始学习</h3>
+                <p>点击任意图标查看功能详情</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

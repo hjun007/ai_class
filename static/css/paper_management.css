@@ -1,0 +1,660 @@
+/* 试卷管理页面专用样式 */
+
+/* 工具栏样式 */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.toolbar-left {
+    display: flex;
+    gap: 1rem;
+}
+
+.toolbar-right {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn-icon {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* 搜索框样式 */
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 25px;
+    width: 250px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    right: 1rem;
+    color: #666;
+    pointer-events: none;
+}
+
+/* 状态筛选下拉框 */
+#statusFilter {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    background: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+#statusFilter:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* 统计卡片样式 */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+/* 试卷列表容器 */
+.paper-list-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e1e5e9;
+    background: #f8f9fa;
+}
+
+.list-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+/* 视图切换按钮 */
+.view-toggle {
+    display: flex;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.view-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: white;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.view-btn:hover {
+    background: #f8f9fa;
+}
+
+.view-btn.active {
+    background: #667eea;
+    color: white;
+}
+
+.view-btn span {
+    margin-right: 0.5rem;
+}
+
+/* 试卷网格视图 */
+.paper-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+    max-height: 600px;
+    overflow-y: auto;
+    /* 自定义滚动条样式 */
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+.paper-grid::-webkit-scrollbar {
+    width: 8px;
+}
+
+.paper-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.paper-grid::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.paper-grid::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 试卷列表视图 */
+.paper-list {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    max-height: 600px;
+    overflow-y: auto;
+    /* 自定义滚动条样式 */
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+.paper-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.paper-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.paper-list::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.paper-list::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 试卷卡片样式 */
+.paper-item {
+    background: white;
+    border: 2px solid #e1e5e9;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.paper-item:hover {
+    border-color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.1);
+}
+
+.paper-item.list-view {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+    cursor: default;
+}
+
+.paper-item.list-view:hover {
+    transform: none;
+    box-shadow: 0 2px 10px rgba(102, 126, 234, 0.1);
+}
+
+/* 试卷头部信息 */
+.paper-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.paper-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.3;
+}
+
+.paper-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* 状态徽章 */
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.draft {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.status-badge.published {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.status-badge.closed {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* 试卷元信息 */
+.paper-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.meta-icon {
+    font-size: 1rem;
+}
+
+/* 试卷统计 */
+.paper-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #667eea;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+/* 操作按钮组 */
+.paper-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.paper-actions .btn {
+    flex: 1;
+    min-width: auto;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+/* 试卷详情弹窗样式 */
+.modal-content.large {
+    max-width: 900px;
+    width: 95%;
+    max-height: 85vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content.extra-large {
+    max-width: 1200px;
+    width: 95%;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.paper-status-badge {
+    display: inline-block;
+    margin-left: 1rem;
+}
+
+/* 弹窗内容区域 */
+.modal-content.large > div:not(.modal-header):not(.close),
+.modal-content.extra-large > div:not(.modal-header):not(.close) {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    /* 自定义滚动条样式 */
+    scrollbar-width: thin;
+    scrollbar-color: #c1c1c1 #f1f1f1;
+}
+
+.modal-content.large > div:not(.modal-header):not(.close)::-webkit-scrollbar,
+.modal-content.extra-large > div:not(.modal-header):not(.close)::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content.large > div:not(.modal-header):not(.close)::-webkit-scrollbar-track,
+.modal-content.extra-large > div:not(.modal-header):not(.close)::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.modal-content.large > div:not(.modal-header):not(.close)::-webkit-scrollbar-thumb,
+.modal-content.extra-large > div:not(.modal-header):not(.close)::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.modal-content.large > div:not(.modal-header):not(.close)::-webkit-scrollbar-thumb:hover,
+.modal-content.extra-large > div:not(.modal-header):not(.close)::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 试卷详情内容 */
+.paper-detail-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.paper-detail-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.question-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.question-item {
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.question-number {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.question-type {
+    background: #667eea;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+}
+
+.question-content {
+    color: #333;
+    line-height: 1.5;
+}
+
+/* 智能分析样式 */
+.analysis-section {
+    margin-bottom: 2rem;
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid #e1e5e9;
+}
+
+.analysis-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.analysis-chart {
+    height: 300px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.analysis-insights {
+    background: #f0f8ff;
+    border: 1px solid #b3d9ff;
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.insight-item {
+    margin-bottom: 0.75rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.insight-item:before {
+    content: "💡";
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.insight-item:last-child {
+    margin-bottom: 0;
+}
+
+/* 空状态样式 */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #666;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.empty-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.empty-description {
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+}
+
+/* 加载状态 */
+.loading-state {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #e1e5e9;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem auto;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .toolbar {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .toolbar-left,
+    .toolbar-right {
+        justify-content: center;
+    }
+    
+    .paper-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1rem;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .search-box input {
+        width: 200px;
+    }
+    
+    .toolbar-right {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .paper-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .paper-actions {
+        flex-direction: column;
+    }
+    
+    .paper-actions .btn {
+        flex: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .paper-grid {
+        grid-template-columns: 1fr;
+        padding: 0.5rem;
+    }
+    
+    .toolbar {
+        padding: 1rem;
+    }
+    
+    .stat-card {
+        padding: 1.5rem;
+    }
+}
